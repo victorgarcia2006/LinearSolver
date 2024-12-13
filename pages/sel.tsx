@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState } from "react";
 import PageLayout from "../components/PageLayout";
 import H1 from "../components/typography/Heading1";
 import H2 from "../components/typography/Heading2";
@@ -9,12 +10,14 @@ import Latex from "react-latex-next";
 import Button from "../components/Button";
 import { Divider } from "@mantine/core";
 
-
 function sel() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [size, setSize] = useState("0");
+
   return (
     <PageLayout title="Sistemas de Ecuaciones Lineales">
-      <div className="flex flex-col w-11/12 gap-10">
-        <header className="flex ">
+      <div className="flex flex-col w-11/12 gap-10 ">
+        <header className="flex justify-start items-start mt-10">
           <H1 isPurple>
             <p>Sistemas de Ecuaciones Lineales</p>
           </H1>
@@ -23,7 +26,12 @@ function sel() {
           <H2>Introduce los coeficientes de tus ecuaciones</H2>
         </div>
         <div className="flex gap-x-10">
-          <Selector title="Tamaño de la matriz" data={["2x2", "3x3", "4x4"]} />
+          <Selector
+            title="Tamaño de la matriz"
+            data={["2x2", "3x3", "4x4"]}
+            value={size}
+            onChange={setSize}
+          />
           <Selector
             title="Método"
             data={["Gauss", "Gauss-Jordan", "Regla de Cramer"]}
@@ -33,95 +41,34 @@ function sel() {
         <div className="flex items-center mt-10">
           <img src="/{.png" alt="" />
           <div className="flex flex-col gap-y-5">
-            <div className="flex flex-row gap-x-10">
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$x$</Latex>
-                </p>
+            {Array.from({ length: parseInt(size) + 2 }, (_, i) => (
+              <div className="flex flex-row gap-x-10" key={i}>
+                {Array.from({ length: parseInt(size) + 2 }, (_, j) => (
+                  <div
+                    className="flex gap-3 justify-center items-center"
+                    key={j}
+                  >
+                    <NumberInput />
+                    <p className="text-2xl">
+                      <Latex>$x_{j}$</Latex>
+                    </p>
+                  </div>
+                ))}
+                <div className="flex gap-3 justify-center items-center">
+                  <p className="text-2xl">
+                    <Latex>$=$</Latex>
+                  </p>
+                </div>
+                <div className="flex gap-3 justify-center items-center">
+                  <NumberInput />
+                </div>
               </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$y$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$z$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <p className="text-2xl">
-                  <Latex>$=$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />
-              </div>
-            </div>
-            <div className="flex flex-row gap-x-10">
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$x$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$y$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$z$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <p className="text-2xl">
-                  <Latex>$=$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />
-              </div>
-            </div>
-            <div className="flex flex-row gap-x-10">
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$x$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$y$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />{" "}
-                <p className="text-2xl">
-                  <Latex>$z$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <p className="text-2xl">
-                  <Latex>$=$</Latex>
-                </p>
-              </div>
-              <div className="flex gap-3 justify-center items-center">
-                <NumberInput />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
         <Button>Resolver</Button>
 
-        <Divider my={"md"}/>
+        <Divider my={"md"} />
       </div>
     </PageLayout>
   );

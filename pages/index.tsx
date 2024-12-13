@@ -6,7 +6,7 @@ import MenuCards from "../components/home/MenuCards";
 export default function Home() {
   return (
     <PageLayout title="Inicio">
-      <div className="flex flex-col w-11/12 gap-y-40 ">
+      <div className="flex flex-col w-11/12 gap-y-40 justify-center h-screen ">
         <header className="flex flex-col items-center">
           <H1 isPurple>
             <p>Bienvenido</p>

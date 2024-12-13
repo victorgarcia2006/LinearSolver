@@ -14,7 +14,7 @@ function PageLayout({ children, title}: PageLayoutProps) {
         <link rel="icon" href="/logo.png" />
       </Head>
       <div className="w-full h-screen flex flex-col justify-start items-center bg-[#F1F0F1]">
-        <div className="flex flex-col justify-center items-center h-full w-full">
+        <div className="flex flex-col items-center h-full w-full">
           {children}
         </div>
       </div>

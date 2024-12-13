@@ -5,11 +5,13 @@ import { Inter } from 'next/font/google'
 interface SelectorProps {
   title: string;
   data: Array<string>;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
-function Selector({ title, data }: SelectorProps) {
+function Selector({ title, data, value, onChange }: SelectorProps) {
   const selectStyle = {
     selectorIcon: ["text-[#CED4DA]"],
     label: ["text-[#CED4DA]", "text-base", "font-medium", ],
@@ -31,11 +33,13 @@ function Selector({ title, data }: SelectorProps) {
       classNames={selectStyle}
       variant="faded"
       radius="full"
+      value={value}
+      onChange={(e) => onChange && onChange(e.target.value)}
       className={`${inter.className}`}
     >
       <SelectSection>
-        {data.map((item) => (
-          <SelectItem key={item} value={item}>
+        {data.map((item, index) => (
+          <SelectItem key={index} value={index}>
             {item}
           </SelectItem>
         ))}
