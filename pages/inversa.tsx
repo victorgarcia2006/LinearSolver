@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useState } from "react";
 import PageLayout from "../components/PageLayout";
 import H1 from "../components/typography/Heading1";
 import H2 from "../components/typography/Heading2";
@@ -8,10 +9,31 @@ import Button from "../components/Button";
 import { Divider } from "@mantine/core";
 
 function inversa() {
-   // eslint-disable-next-line react-hooks/rules-of-hooks
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [size, setSize] = useState("0");
+  const [matrix, setMatrix] = useState(
+    Array.from({ length: parseInt(size) + 2 }, () =>
+      Array.from({ length: parseInt(size) + 2 }, () => 0)
+    )
+  );
+
+  useEffect(() => {
+    console.log(size);
+    console.log(matrix);
+  }, [size, matrix]);
+
+  const handleValueChange = (value, i, j) => {
+    const newMatrix = matrix.map((row, rowIndex) =>
+      row.map((col, colIndex) =>
+        rowIndex === i && colIndex === j ? value : col
+      )
+    );
+
+    return newMatrix;
+  };
+
   return (
-    <PageLayout title="Sistemas de Ecuaciones Lineales">
+    <PageLayout title="Inversa de matrices">
       <div className="flex flex-col w-11/12 gap-10">
         <header className="flex justify-start items-start mt-10">
           <H1 isPurple>
@@ -26,7 +48,14 @@ function inversa() {
             title="Tamaño de la matriz"
             data={["2x2", "3x3", "4x4"]}
             value={size}
-            onChange={setSize}
+            onChange={(value) => {
+              setSize(value);
+              setMatrix(
+                Array.from({ length: parseInt(value) + 2 }, () =>
+                  Array.from({ length: parseInt(value) + 2 }, () => 0)
+                )
+              );
+            }}
           />
           <Selector title="Método" data={["Gauss-Jordan", "Determinantes"]} />
         </div>
@@ -41,7 +70,13 @@ function inversa() {
                     className="flex gap-3 justify-center items-center"
                     key={j}
                   >
-                    <NumberInput />
+                    <NumberInput
+                      value={matrix[i][j]}
+                      onChange={(value) => {
+                        const newMatrix = handleValueChange(value, i, j);
+                        setMatrix(newMatrix);
+                      }}
+                    />
                   </div>
                 ))}
               </div>
